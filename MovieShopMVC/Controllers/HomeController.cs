@@ -31,7 +31,15 @@ namespace MovieShopMVC.Controllers
             return View(movies);
         }
 
+        [HttpGet]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        //https://localhost:112498/Home/TopMoviess
+        [HttpGet]
+        public IActionResult TopMovies()
         {
             return View();
         }

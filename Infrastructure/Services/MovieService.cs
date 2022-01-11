@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Contracts.Servicces;
+﻿using ApplicationCore.Contracts.Repositories;
+using ApplicationCore.Contracts.Servicces;
 using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,25 @@ namespace Infrastructure.Services
 {
     public class MovieService : IMovieService
     {
+        private readonly IMovieRepository _movieRepository;
+        public MovieService(IMovieRepository movieRepository)
+        {
+            _movieRepository = movieRepository;
+        }
         public List<MovieCardResponseModel> GetTop30GrossingMovies()
         {
             // we need to call the MovieRepository and get the data from Movies Table
-            var movies = new List<MovieCardResponseModel>()
-            {
-                new MovieCardResponseModel() { Id=1, Title="Inception", PosterUrl="https://image.tmdb.org/t/p/w342//9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" },
-                new MovieCardResponseModel() {Id=2, Title="Interstellar", PosterUrl="https://image.tmdb.org/t/p/w342//gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"},
-                new MovieCardResponseModel() { Id=3, Title="The Dark Knight", PosterUrl="https://image.tmdb.org/t/p/w342//qJ2tW6WMUDux911r6m7haRef0WH.jpg"}
-            };
+            var movies = _movieRepository.Get30HighestGrossingMovies();
+            // map the data from movies (List<Movie>) to movieCards (List<MovieCardResponseModel>)
 
-            return movies;
+            var movieCards = new List<MovieCardResponseModel>();
+
+            foreach (var movie in movies)
+            {
+                movieCards.Add(new MovieCardResponseModel { Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
+            }
+
+            return movieCards;
         }
     }
 }
