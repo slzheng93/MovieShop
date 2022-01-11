@@ -29,6 +29,7 @@ namespace Infrastructure.Data
         public DbSet<Review> Review { get; set; }
         public DbSet<Purchase> Purchase { get; set; }
         public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
 
 
@@ -91,14 +92,11 @@ namespace Infrastructure.Data
             builder.Property(u => u.HashedPassword).HasMaxLength(1024);
             builder.Property(u => u.Salt).HasMaxLength(1024);
             builder.Property(u => u.PhoneNumber).HasMaxLength(16);
-            //builder.Property(u => u.TwoFactorEnabled).
-
-            //builder.Property(m => m.Revenue).HasColumnType("decimal(18, 4)").HasDefaultValue(9.9m);
         }
         private void ConfigureMovieCrew(EntityTypeBuilder<MovieCrew> builder)
         {
             builder.ToTable("MovieCrew");
-            builder.HasKey(mc => new { mc.MovieId, mc.CrewId });
+            builder.HasKey(mc => new { mc.MovieId, mc.CrewId, mc.Department, mc.Job });
             builder.HasOne(mc => mc.Movie).WithMany(mc => mc.CrewesOfMovie).HasForeignKey(mc => mc.MovieId);
             builder.HasOne(mc => mc.Crew).WithMany(mc => mc.CrewList).HasForeignKey(mc => mc.CrewId);
             builder.Property(mc => mc.Department).HasMaxLength(128);
@@ -114,7 +112,7 @@ namespace Infrastructure.Data
         private void ConfigureMovieCast(EntityTypeBuilder<MovieCast> builder)
         {
             builder.ToTable("MovieCast");
-            builder.HasKey(mc => new { mc.MovieId, mc.CastId });
+            builder.HasKey(mc => new { mc.MovieId, mc.CastId, mc.Character });
             builder.HasOne(mc => mc.Movie).WithMany(mc => mc.MovieCast).HasForeignKey(mc => mc.MovieId);
             builder.HasOne(mc => mc.Cast).WithMany(mc => mc.CastOfMovie).HasForeignKey(mc => mc.CastId);
             builder.Property(mc => mc.Character).HasMaxLength(450);
