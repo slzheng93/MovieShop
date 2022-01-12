@@ -48,6 +48,7 @@ namespace Infrastructure.Services
             {
                 movieModel.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl });
             }
+            
             return movieModel;
 
         }

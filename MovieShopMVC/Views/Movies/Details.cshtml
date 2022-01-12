@@ -1,12 +1,51 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
 
-<h2>
-   @Model.Title
-</h2>
-
-@foreach (var genre in Model.Genres)
-{
-    <div>
-        @genre.Name
+<div class="container">
+    <div class="row">
+        <div class="col mb-4">
+            <img src="@Model.PosterUrl"/>
+        </div>
+        <div class="col-6">
+            <h1>@Model.Title</h1>
+            <p>@Model.Tagline</p>
+            <p>@Model.RunTime|@Model.ReleaseDate</p>
+            @foreach (var genre in Model.Genres)
+            {
+                <ul class="list-group list-group-horizontal">
+                @genre.Name
+                </ul>
+            }
+            <h2>@Model.Rating</h2>
+            <p>@Model.Overview</p>
+        </div>
+        <div class="col-2">
+            <div><button type="button" class="btn btn-default">Review</button></div>
+            <div><button type="button" class="btn btn-info">Buy @Model.Price</button></div>
+        </div>
     </div>
-}
+    <div class="row">
+        <div class="col-3 mb-4">
+            <h4>MOVIE FACTS</h4>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item">Release Date @Model.ReleaseDate</li>
+                <li class="list-group-item">Run Time @Model.RunTime m</li>
+                <li class="list-group-item">Box Office $@Model.Revenue</li>
+                <li class="list-group-item">Budget $@Model.Budget</li>
+            </ul>
+            <div>
+                <h4>TRAILERS</h4>
+                <p><a href="@Model.BackdropUrl">@Model.Title</a></p>
+            </div>
+        </div>
+        <div class="col-9">
+            <h4>CAST</h4>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
