@@ -1,0 +1,12 @@
+﻿@model ApplicationCore.Models.MovieDetailsResponseModel
+
+<h2>
+   @Model.Title
+</h2>
+
+@foreach (var genre in Model.Genres)
+{
+    <div>
+        @genre.Name
+    </div>
+}

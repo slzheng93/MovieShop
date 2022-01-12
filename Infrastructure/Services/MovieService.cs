@@ -16,10 +16,46 @@ namespace Infrastructure.Services
         {
             _movieRepository = movieRepository;
         }
-        public List<MovieCardResponseModel> GetTop30GrossingMovies()
+
+        public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
+        {
+            var movieDetails = await _movieRepository.GetById(id);
+
+            var movieModel = new MovieDetailsResponseModel {
+                Id = movieDetails.Id,
+                Title = movieDetails.Title,
+                PosterUrl = movieDetails.PosterUrl,
+                BackdropUrl = movieDetails.BackdropUrl,
+                //Rating = movieDetails.Rating,
+                Overview = movieDetails.Overview,
+                Tagline = movieDetails.Tagline,
+                Budget = movieDetails.Budget,
+                Revenue = movieDetails.Revenue,
+                ImdbUrl = movieDetails.ImdbUrl,
+                TmdbUrl = movieDetails.TmdbUrl,
+                ReleaseDate = movieDetails.ReleaseDate,
+                RunTime = movieDetails.RunTime,
+                Price = movieDetails.Price,
+
+            };
+
+            foreach (var genre in movieDetails.GernesOfMovie)
+            {
+                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
+            }
+
+            foreach (var trailer in movieDetails.Trailers)
+            {
+                movieModel.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl });
+            }
+            return movieModel;
+
+        }
+
+        public async Task<List<MovieCardResponseModel>> GetTop30GrossingMovies()
         {
             // we need to call the MovieRepository and get the data from Movies Table
-            var movies = _movieRepository.Get30HighestGrossingMovies();
+            var movies = await _movieRepository.Get30HighestGrossingMovies();
             // map the data from movies (List<Movie>) to movieCards (List<MovieCardResponseModel>)
 
             var movieCards = new List<MovieCardResponseModel>();

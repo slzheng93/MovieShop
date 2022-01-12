@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    internal class GenreService
+    public class GenreService
     {
     }
 }
