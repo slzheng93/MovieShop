@@ -1,5 +1,6 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
 
+
 <div class="container" style="border-inline-width">
     <!--Setting Poster and Background Image-->
     <div class="row position-relative" style="background-image:url(@Model.BackdropUrl);background-size:cover">
@@ -114,45 +115,28 @@
         <!--Cast Informations-->   
             <div class="col-9">
                 <div class="row row-cols-1">
-                    <div class="col-3">
-                        <h4>CAST</h4>
-                    </div>
+                    <h4>CAST</h4>
                 </div>  
-                <div class="row row-cols-3">
-                    <div class="col-3">
-                        <ul class="list-group list-group-flush mb-4">
-                            @{
-                                <!--Actor image URL-->
-                                for (var i = 0; i < 3; i++)
-                                {
-                                    <li class="list-group-item">ActorURL</li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                    <div class="col-4">
-                        <ul class="list-group list-group-flush mb-4">
-                            @{
-                                <!--Actore Name-->
-                                for (var i = 0; i < 3; i++)
-                                {
-                                    <li class="list-group-item">Name</li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                    <div class="col-5">
-                        <ul class="list-group list-group-flush mb-4">
-                            @{
-                                <!--Character Name-->
-                                for (var i = 0; i < 3; i++)
-                                {
-                                    <li class="list-group-item">Character</li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                </div>
+                    <div class="row row-cols-3">
+                        @foreach (var cast in Model.Casts)
+                        {
+                            <div class="col align-items-center">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
+                                </ul>
+                            </div>
+                            <div class="col align-self-md-center">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">@cast.Name</li>
+                                </ul>
+                            </div>
+                            <div class="col align-self-md-center">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">@cast.Character</li>
+                                </ul>
+                            </div>
+                        }
+                    </div>             
             </div>
     </div>
 </div>

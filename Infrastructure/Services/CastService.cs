@@ -10,7 +10,10 @@ namespace Infrastructure.Services
 {
     public class CastService : ICastService
     {
-  
+        Task<CastModel> ICastService.GetCastDetails(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
-    
+
 }

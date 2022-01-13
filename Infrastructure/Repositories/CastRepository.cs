@@ -17,13 +17,12 @@ namespace Infrastructure.Repositories
         public CastRepository(MovieShopDbContext dbContext) : base(dbContext)
         {
         }
-
         public override async Task<Cast> GetById(int id)
         {
             //we use include method in EF, to navigate and load related data
-            //var movie = await _dbContext.Movies.Include(m => m.Trailers).Include(m => m.GernesOfMovie).ThenInclude(m => m.Genre).SingleOrDefaultAsync(m => m.Id == id);
-            var cast = await _dbContext.Cast.Include(c => c.CastOfMovie).Include(c => c.CastOfMovie).ThenInclude(c => c.Movie).SingleOrDefaultAsync(c => c.Id == id);
-          
+            
+            var cast = await _dbContext.Cast.Include(c => c.CastOfMovie).ThenInclude(c => c.Movie).SingleOrDefaultAsync(c => c.Id == id);   
+            
             return cast;
         }
     }
