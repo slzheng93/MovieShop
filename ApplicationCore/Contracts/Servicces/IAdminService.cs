@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Contracts.Servicces
 {
-    public class IAdminService
+    public interface IAdminService
     {
     }
 }

@@ -1,51 +1,159 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
 
-<div class="container">
-    <div class="row">
-        <div class="col mb-4">
+<div class="container" style="border-inline-width">
+    <!--Setting Poster and Background Image-->
+    <div class="row position-relative" style="background-image:url(@Model.BackdropUrl);background-size:cover">
+
+        <div class="col mb-4 p-3 mb-2 mt-4 bg-gradient-primary text-white">
             <img src="@Model.PosterUrl"/>
         </div>
-        <div class="col-6">
+        <!--Tittle Information and Detail Information-->
+        <div class="col-6 p-3 mb-2 bg-gradient-primary text-white">
             <h1>@Model.Title</h1>
-            <p>@Model.Tagline</p>
-            <p>@Model.RunTime|@Model.ReleaseDate</p>
-            @foreach (var genre in Model.Genres)
-            {
-                <ul class="list-group list-group-horizontal">
-                @genre.Name
-                </ul>
-            }
-            <h2>@Model.Rating</h2>
-            <p>@Model.Overview</p>
-        </div>
-        <div class="col-2">
-            <div><button type="button" class="btn btn-default">Review</button></div>
-            <div><button type="button" class="btn btn-info">Buy @Model.Price</button></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3 mb-4">
-            <h4>MOVIE FACTS</h4>
-            <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item">Release Date @Model.ReleaseDate</li>
-                <li class="list-group-item">Run Time @Model.RunTime m</li>
-                <li class="list-group-item">Box Office $@Model.Revenue</li>
-                <li class="list-group-item">Budget $@Model.Budget</li>
-            </ul>
             <div>
-                <h4>TRAILERS</h4>
-                <p><a href="@Model.BackdropUrl">@Model.Title</a></p>
+                <span class="text-white-50">@Model.Tagline</span>
+                <div>
+                    <span class="text-white-50">@Model.RunTime|@Model.ReleaseDate.</span>
+                </div>
+                @foreach (var genre in Model.Genres)
+                {
+                    <span class="badge bg-success">@genre.Name</span>
+                }
+                <span class="badge bg-secondary">@Model.Rating</span>
+                <p class="text-white-200">@Model.Overview</p>
             </div>
         </div>
-        <div class="col-9">
-            <h4>CAST</h4>
-            <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
+        <div class="col-2 p-3 mb-2 bg-gradient-primary text-white">
+            <!--Review Button-->
+            <div class="btn float-end"><button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button></div>
+            <!--Review Modal Confirguration-->
+            <div class="modal fade" id="ReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-black" id="staticBackdropLabel">Leave a Review for @Model.Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-black">
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadioInline1">1-Star  </label>
+
+                             <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                             <label class="custom-control-label" for="customRadioInline2">2-Stars  </label>
+
+                             <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                             <label class="custom-control-label" for="customRadioInline2">3-Stars  </label>
+
+                             <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                             <label class="custom-control-label" for="customRadioInline2">4-Stars  </label>
+
+                             <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                             <label class="custom-control-label" for="customRadioInline2">5-Stars  </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Feedback:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Leave a Review</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Price Button-->
+            <div class="btn float-end"><button type="button" class="btn btn-outline-light btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#PurchaseModal">Buy $@Model.Price</button></div>
+            <!--Price Modal Confirguration-->
+            <div class="modal fade" id="PurchaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-black" id="staticBackdropLabel">@Model.Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-black">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Purchase $@Model.Price</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
         </div>
     </div>
-
+    <div class="row mt-4">
+        <div class="col-3 mb-4">
+            <!--Movie Facts and Trailers-->
+            <h4>MOVIE FACTS</h4>
+            @{ 
+                <ul class="list-group list-group-flush mb-4"> 
+                    <li class="list-group-item">Release Date @Model.ReleaseDate</li>
+                    <li class="list-group-item">Run Time @Model.RunTime m</li>
+                    <li class="list-group-item">Box Office $@Model.Revenue</li>
+                    <li class="list-group-item">Budget $@Model.Budget</li>
+                </ul>
+            }
+             <div>
+                <h4>TRAILERS</h4>
+                @{
+                    int count = 0;
+                    foreach (var trailer in Model.Trailers)
+                    {
+                        count = count + 1;
+                        <ul class="list-group list-group-flush">
+                          <a href="@trailer.TrailerUrl" class="list-group-item">@Model.Title: Trailer @count</a>
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+        <!--Cast Informations-->   
+            <div class="col-9">
+                <div class="row row-cols-1">
+                    <div class="col-3">
+                        <h4>CAST</h4>
+                    </div>
+                </div>  
+                <div class="row row-cols-3">
+                    <div class="col-3">
+                        <ul class="list-group list-group-flush mb-4">
+                            @{
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <li class="list-group-item">ActorURL</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-4">
+                        <ul class="list-group list-group-flush mb-4">
+                            @{
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <li class="list-group-item">Name</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-5">
+                        <ul class="list-group list-group-flush mb-4">
+                            @{
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <li class="list-group-item">Character</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>

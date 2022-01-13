@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ApplicationCore.Contracts.Servicces;
+using ApplicationCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class CastService
+    public class CastService : ICastService
     {
+  
     }
+    
 }

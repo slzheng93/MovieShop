@@ -36,7 +36,6 @@ namespace Infrastructure.Services
                 ReleaseDate = movieDetails.ReleaseDate,
                 RunTime = movieDetails.RunTime,
                 Price = movieDetails.Price,
-
             };
 
             foreach (var genre in movieDetails.GernesOfMovie)
@@ -48,7 +47,7 @@ namespace Infrastructure.Services
             {
                 movieModel.Trailers.Add(new TrailerModel { Id = trailer.Id, Name = trailer.Name, TrailerUrl = trailer.TrailerUrl });
             }
-            
+
             return movieModel;
 
         }
