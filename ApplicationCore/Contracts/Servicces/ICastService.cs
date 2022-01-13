@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Contracts.Servicces
 {
-    public class ICastService
+    public interface ICastService
     {
         
     }
