@@ -29,6 +29,16 @@ namespace Infrastructure.Services
                 TmdbUrl = castDeatil.TmdbUrl,
                 ProfilePath = castDeatil.ProfilePath
             };
+            /*
+             foreach (var genre in movieDetails.GernesOfMovie)
+            {
+                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
+            }*/
+
+            foreach(var movie in castDeatil.CastOfMovie)
+            {
+                //castModels.Movies.Add(new CastDeatilModel { Id = movie.CastId, Movies = movie.Movie.Title.ToString()); ;
+            }
 
             return castModels;
         }

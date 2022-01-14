@@ -3,7 +3,7 @@
 
 <div class="container" style="border-inline-width">
     <!--Setting Poster and Background Image-->
-    <div class="row position-relative" style="background-image:url(@Model.BackdropUrl);background-size:cover">
+    <div class="row position-relative " style="background:linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ),url(@Model.BackdropUrl); background-size:cover;">
 
         <div class="col mb-4 p-3 mb-2 mt-4 bg-gradient-primary text-white">
             <img src="@Model.PosterUrl"/>
@@ -14,7 +14,7 @@
             <div>
                 <span class="text-white-50">@Model.Tagline</span>
                 <div>
-                    <span class="text-white-50">@Model.RunTime|@Model.ReleaseDate.</span>
+                    <span class="text-white-50">@Model.RunTime | @Model.ReleaseDate.Value.ToString("yyyy")</span>
                 </div>
                 @foreach (var genre in Model.Genres)
                 {
@@ -89,15 +89,14 @@
     <div class="row mt-4">
         <div class="col-3 mb-4">
             <!--Movie Facts and Trailers-->
-            <h4>MOVIE FACTS</h4>
-            @{ 
-                <ul class="list-group list-group-flush mb-4"> 
-                    <li class="list-group-item">Release Date @Model.ReleaseDate</li>
+            <h4>MOVIE FACTS</h4>            
+                <ul class="list-group list-group-flush mb-4">  
+                    <li class="list-group-item">Release Date @Model.ReleaseDate.Value.ToString("MM/dd/yyyy")</li>
                     <li class="list-group-item">Run Time @Model.RunTime m</li>
-                    <li class="list-group-item">Box Office $@Model.Revenue</li>
-                    <li class="list-group-item">Budget $@Model.Budget</li>
+                    <li class="list-group-item">Box Office @string.Format("{0:C}",Model.Revenue)</li>
+                    <li class="list-group-item">Budget @string.Format("{0:C}",@Model.Budget)</li>
                 </ul>
-            }
+            
              <div>
                 <h4>TRAILERS</h4>
                 @{

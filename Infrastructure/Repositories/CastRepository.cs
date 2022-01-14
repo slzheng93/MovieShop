@@ -22,7 +22,7 @@ namespace Infrastructure.Repositories
             //we use include method in EF, to navigate and load related data
             
             var cast = await _dbContext.Cast.Include(c => c.CastOfMovie).ThenInclude(c => c.Movie).SingleOrDefaultAsync(c => c.Id == id);   
-            
+           
             return cast;
         }
     }
