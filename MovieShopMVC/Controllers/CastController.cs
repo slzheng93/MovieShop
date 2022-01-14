@@ -11,12 +11,11 @@ namespace MovieShopMVC.Controllers
          */
         private readonly ICastService _castService;
 
-        public CastController(ICastService movieService)
+        public CastController(ICastService castService)
         {
-            _castService = movieService;
+            _castService = castService;
         }
-
-        public async Task<IActionResult> castDetail(int id)
+        public async Task<IActionResult> castDetails(int id)
         {
             var castDetails = await _castService.GetCastDetails(id);
             return View(castDetails);

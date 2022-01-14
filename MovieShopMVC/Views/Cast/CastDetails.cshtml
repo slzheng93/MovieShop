@@ -1,0 +1,46 @@
+﻿@model ApplicationCore.Models.CastDeatilModel
+
+<h1 class="text-center"> Cast Detail</h1>
+
+<div class="container">
+    <!--FIRST ROW (Picture of the Actor) Centered-->
+    <div class="row">
+        <div class="col-12">
+            <ul class="list-group list-group-flush align-items-center" >
+                <li class="list-group-item">
+                    <img src="@Model.ProfilePath"/>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--SECOND ROW-->
+    <div class="row">
+        <div class="col-12">
+            <ul class="list-group list-group-flush align-items-center" >
+
+                <li class="list-group-item">Cast Name : @Model.Name</li>
+
+                @{
+                    if (Convert.ToInt32(Model.Gender) == 2)
+                    {
+                        <li class="list-group-item">Cast Gender : Male</li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">Cast Gender : Female</li>
+                    }
+                }   
+                <li class="list-group-item">Cast Tmdb Url : <a class="text-decoration-none" href="@Model.TmdbUrl">@Model.TmdbUrl</a></li>
+
+                @{
+                    foreach (var movie in Model.Movies)
+                    {
+                        <li class="list-group-item">Cast Related Movie: @movie.Title</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+        
+
+</div>

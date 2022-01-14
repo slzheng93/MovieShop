@@ -70,7 +70,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title text-black" id="staticBackdropLabel">@Model.Title</h5>
+                    <h5 class="modal-title text-black" id="staticBackdropLabel">Purchase Movie: @Model.Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body text-black">
@@ -121,21 +121,21 @@
                         @foreach (var cast in Model.Casts)
                         {
                             <div class="col align-items-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id">
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id">
                                     <ul class="list-group list-group-flush" >
                                         <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
                                     </ul>
                                 </a> 
                             </div>
                             <div class="col align-self-md-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id" class="text-decoration-none">
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">@cast.Name</li>
                                    </ul>
                                 </a>
                             </div>
                             <div class="col align-self-md-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id" class="text-decoration-none">
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
                                     <ul class="list-group list-group-flush">
                                     
                                         <li class="list-group-item">@cast.Character</li>

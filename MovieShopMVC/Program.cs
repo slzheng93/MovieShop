@@ -12,10 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<ICastService, CastService>();
 builder.Services.AddScoped<ICastRepository, CastRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-
+builder.Services.AddScoped<IUserService, UserService>();
 
 // cookie based authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
