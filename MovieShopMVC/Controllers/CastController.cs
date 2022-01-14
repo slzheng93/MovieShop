@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApplicationCore.Contracts.Servicces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MovieShopMVC.Controllers
 {
@@ -8,5 +9,18 @@ namespace MovieShopMVC.Controllers
          * Show cast details along with movies that cast belongs to
          *---------------------------------------------------------
          */
+        private readonly ICastService _castService;
+
+        public CastController(ICastService movieService)
+        {
+            _castService = movieService;
+        }
+
+        public async Task<IActionResult> castDetail(int id)
+        {
+            var castDetails = await _castService.GetCastDetails(id);
+            return View(castDetails);
+        }
     }
 }
+

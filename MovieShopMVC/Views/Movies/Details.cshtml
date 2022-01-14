@@ -121,19 +121,26 @@
                         @foreach (var cast in Model.Casts)
                         {
                             <div class="col align-items-center">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
-                                </ul>
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id">
+                                    <ul class="list-group list-group-flush" >
+                                        <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
+                                    </ul>
+                                </a> 
                             </div>
                             <div class="col align-self-md-center">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">@cast.Name</li>
-                                </ul>
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id" class="text-decoration-none">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">@cast.Name</li>
+                                   </ul>
+                                </a>
                             </div>
                             <div class="col align-self-md-center">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">@cast.Character</li>
-                                </ul>
+                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@Model.Id" class="text-decoration-none">
+                                    <ul class="list-group list-group-flush">
+                                    
+                                        <li class="list-group-item">@cast.Character</li>
+                                    </ul>
+                                </a>
                             </div>
                         }
                     </div>             

@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Contracts.Servicces;
+﻿using ApplicationCore.Contracts.Repositories;
+using ApplicationCore.Contracts.Servicces;
 using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,26 @@ namespace Infrastructure.Services
 {
     public class CastService : ICastService
     {
-        Task<CastModel> ICastService.GetCastDetails(int id)
+        private readonly ICastRepository _castService;
+
+        public CastService(ICastRepository castService)
         {
-            throw new NotImplementedException();
+            _castService = castService;
+        }
+        public async Task<CastDeatilModel> GetCastDetails(int id)
+        {
+            var castDeatil = await _castService.GetById(id);
+
+            var castModels = new CastDeatilModel
+            {
+                Id = castDeatil.Id,
+                Name = castDeatil.Name,
+                Gender = castDeatil.Gender,
+                TmdbUrl = castDeatil.TmdbUrl,
+                ProfilePath = castDeatil.ProfilePath
+            };
+
+            return castModels;
         }
     }
 
