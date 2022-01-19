@@ -14,7 +14,7 @@ namespace MovieShopMVC.Controllers
          * Register
          * Logout
          *--------------------------------------------------
-         */
+         */        
         //showing the register view
 
         private readonly IAccountService _accountService;
