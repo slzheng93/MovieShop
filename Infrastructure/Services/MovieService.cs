@@ -20,13 +20,12 @@ namespace Infrastructure.Services
         public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
         {
             var movieDetails = await _movieRepository.GetById(id);
-
+            
             var movieModel = new MovieDetailsResponseModel {
                 Id = movieDetails.Id,
                 Title = movieDetails.Title,
                 PosterUrl = movieDetails.PosterUrl,
                 BackdropUrl = movieDetails.BackdropUrl,
-                //Rating = movieDetails.Rating,
                 Overview = movieDetails.Overview,
                 Tagline = movieDetails.Tagline,
                 Budget = movieDetails.Budget,
@@ -66,7 +65,12 @@ namespace Infrastructure.Services
 
             foreach (var movie in movies)
             {
-                movieCards.Add(new MovieCardResponseModel { Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl });
+                movieCards.Add(new MovieCardResponseModel 
+                { 
+                    Id = movie.Id, 
+                    Title = movie.Title, 
+                    PosterUrl = movie.PosterUrl 
+                });
             }
 
             return movieCards;

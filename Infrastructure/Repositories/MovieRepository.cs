@@ -25,11 +25,12 @@ namespace Infrastructure.Repositories
 
             return movies;
         }
-        public override async Task<Movie> GetById(int id)
+        public override async Task<Movie> GetById(int id) 
         {
             //we use include method in EF, to navigate and load related data
             var movie = await _dbContext.Movies.Include(m => m.Trailers).Include(m => m.MovieCast).ThenInclude(m => m.Cast)
                 .Include(m => m.GernesOfMovie).ThenInclude(m => m.Genre).SingleOrDefaultAsync(m => m.Id == id);
+
             return movie;
         }
     }

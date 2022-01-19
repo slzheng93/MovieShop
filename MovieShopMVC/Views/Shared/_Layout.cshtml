@@ -25,12 +25,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                    </ul>
+
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                                Genres
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="defaultDropdown" style="font-size:0.8em">
+                                @await Component.InvokeAsync("Genres")
+                            </ul>
+                        </div>
+
+                   </ul>
+
+                   <partial name="_LoginInfo" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

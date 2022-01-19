@@ -5,8 +5,11 @@
 }
 
 <h1>Register</h1>
-
+<!--
 <h4>UserRegisterRequestModel</h4>
+-->
+
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -34,11 +37,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                <input asp-for="DateOfBirth" class="form-control" type="date"/>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
         </form>
     </div>

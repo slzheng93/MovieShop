@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ApplicationCore.Contracts.Servicces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -18,8 +19,15 @@ namespace MovieShopMVC.Controllers
          *--------------------------------------------------
          */
 
+        private readonly IUserService _userService;
+
+        public UserController(IUserService _userService)
+        {
+            _userService = _userService;
+        }
+
         // ASP.NET has Filters Authorization
-       
+
         [HttpGet]
         public async Task<IActionResult> Purchases()
         {

@@ -1,10 +1,12 @@
 using ApplicationCore.Contracts.Repositories;
 using ApplicationCore.Contracts.Servicces;
+using ApplicationCore.Entities;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using MovieShopMVC.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +14,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
 builder.Services.AddScoped<ICastService, CastService>();
 builder.Services.AddScoped<ICastRepository, CastRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IRepository<Genre>, EfRepository<Genre>>();
+
+builder.Services.AddScoped<ICurrentLoginUserService, CurrentLoginUserService>();
+
+// inject HttpContext
+builder.Services.AddHttpContextAccessor();
 
 // cookie based authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -30,6 +30,7 @@ namespace Infrastructure.Data
         public DbSet<Purchase> Purchase { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
 
 
