@@ -9,6 +9,10 @@ namespace ApplicationCore.Models
 {
     public class FavoriteResponseModel
     {
+        public FavoriteResponseModel()
+        {
+            FavoriteMovies = new List<FavoriteMovieResponseModel>();
+        }
         public int UserId { get; set; }
         public List<FavoriteMovieResponseModel> FavoriteMovies{ get; set; }
 

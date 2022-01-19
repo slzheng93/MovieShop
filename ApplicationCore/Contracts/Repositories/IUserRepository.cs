@@ -18,7 +18,7 @@ namespace ApplicationCore.Contracts.Repositories
 
         Task<List<Purchase>> GetAllPurchasesForUser(int id);
         Task<Purchase> GetPurchasesDetails(int userId, int movieId);
-        Task<List<Favorite>> GetAllFavoritesForUser(int id);
+        Task<List<Movie>> GetAllFavoritesForUser(int id);
         Task<Favorite> AddFavorite(int userId, int movieId);
         Task<Favorite> RemoveFavorite(int userId, int movieId);
         Task<List<Review>> GetAllReviewsByUser(int id);

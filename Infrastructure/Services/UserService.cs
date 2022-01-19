@@ -52,26 +52,86 @@ namespace Infrastructure.Services
         //INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE
         public async Task<FavoriteResponseModel> GetAllFavoriteForUser(int id)
         {
-            var favorite = await _userRepository.GetAllFavoritesForUser(id);
+            /*var favorites = await _userRepository.GetAllFavoritesForUser(id);
+            
+            var favoriteModel = new List<FavoriteResponseModel>();
 
-            var favoriteModel = new FavoriteResponseModel();
+            /*var favoriteMovies = new List<FavoriteResponseModelFavoriteResponseModel>();
 
-            return favoriteModel;
+            foreach (var favorite in favorites)
+            {
+                favoriteModel.Add(new FavoriteResponseModel
+                {
+                    UserId = id,
+                    FavoriteMovies = favorite.FavoriteOfMovie,
+                });
+            }*/
+            return null;//favoriteModel;
         }
-        //INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE
-        public Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
+
+        public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
         {
-            var purchaseUser = _userRepository.GetAllPurchasesForUser(id);
+            var purchaseUser = await _userRepository.GetAllPurchasesForUser(id);
+            var purchaseModel = new List<PurchaseResponseModel>();
+            var purchasedMovies = new List<MovieDetailsResponseModel>();
 
-            var purchaseModel = new PurchaseResponseModel();
+            int count = 0;
 
-            return null;
-            //return purchaseModel;
+            foreach (var item in purchaseUser)
+            {
+                while(item.MovieId != null)
+                {
+                    count++;
+                }
+            }
+
+            foreach (var purchase in purchaseUser)
+            {
+                purchasedMovies.Add(new MovieDetailsResponseModel
+                {
+                    Id = purchase.MovieId,
+                    Title = purchase.Movie.Title,
+                    BackdropUrl = purchase.Movie.BackdropUrl,
+                    ImdbUrl = purchase.Movie.ImdbUrl,
+                    ReleaseDate = purchase.Movie.ReleaseDate,
+                });
+            }
+
+            return new PurchaseResponseModel
+            {
+                UserId = id,
+                TotalMoviesPurchased = count,
+                PurchasedMovies = purchasedMovies
+            };
+
+
         }
-        //INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE
-        public Task<UserReviewResponseModel> GetAllReviewsByUser(int id)
+
+        public async Task<UserReviewResponseModel> GetAllReviewsByUser(int id)
         {
-            throw new NotImplementedException();
+            var reviews = await _userRepository.GetAllReviewsByUser(id);
+
+            var movieReviews = new List<MovieReviewResponseModel>();
+            var reviewsModel = new List<UserReviewResponseModel>();
+
+            foreach (var review in reviews)
+            {
+                movieReviews.Add(new MovieReviewResponseModel
+                {
+                    MovieId = review.MovieId,
+                    ReviewText = review.ReviewText,
+                    UserId = review.UserId,
+                    Rating = review.Rating,
+                    Name = review.User.LastName
+                });
+
+                
+            }
+            return new UserReviewResponseModel
+            {
+                UserId = id,
+                MovieReview = movieReviews
+            };
         }
 
         public async Task<PurchaseDetailsResponseModel> GetPurchaseDetails(int userId, int movieId)

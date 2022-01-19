@@ -20,7 +20,8 @@ namespace Infrastructure.Services
         public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
         {
             var movieDetails = await _movieRepository.GetById(id);
-            
+            var rating = await _movieRepository.GetMovieRating(id);
+
             var movieModel = new MovieDetailsResponseModel {
                 Id = movieDetails.Id,
                 Title = movieDetails.Title,
@@ -35,11 +36,13 @@ namespace Infrastructure.Services
                 ReleaseDate = movieDetails.ReleaseDate,
                 RunTime = movieDetails.RunTime,
                 Price = movieDetails.Price,
+                Rating = rating,
+                
             };
 
             foreach (var genre in movieDetails.GernesOfMovie)
             {
-                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
+                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name});
             }
 
             foreach (var trailer in movieDetails.Trailers)
@@ -51,6 +54,7 @@ namespace Infrastructure.Services
             {
                 movieModel.Casts.Add(new CastModel {Id = cast.CastId, Name = cast.Cast.Name, Character = cast.Character, ProfilePath = cast.Cast.ProfilePath });
             }
+
             return movieModel;
 
         }

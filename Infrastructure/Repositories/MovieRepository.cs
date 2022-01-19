@@ -33,5 +33,10 @@ namespace Infrastructure.Repositories
 
             return movie;
         }
+        public async Task<decimal> GetMovieRating(int id)
+        {
+            var movieRating = await _dbContext.Review.Where(r => r.MovieId == id).DefaultIfEmpty().AverageAsync(r => r == null ? 0 : r.Rating);
+            return movieRating;
+        }
     }
 }

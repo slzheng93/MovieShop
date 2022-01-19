@@ -81,14 +81,12 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<Favorite>> GetAllFavoritesForUser(int id)
+        public async Task<List<Movie>> GetAllFavoritesForUser(int id)
         {
-            var favorite = await _dbContext.Favorites.Where(f => f.UserId == id).ToListAsync();
+            var favoriteMovies = await _dbContext.Favorites.Include(f => f.Movie).Where(f => f.UserId == id).Select(f => f.Movie).ToListAsync();
+            
 
-            //var favorite = await _dbContext.Favorites.Include(f => f.User).Include(f => f.Movie).Where(f => f.UserId == id).ToListAsync();
-
-            //var favorite = await _dbContext.Favorites.Include(f => f.Movie).Include(f => f.User).Where(f => f.UserId == id).ToListAsync();
-            return favorite;
+            return favoriteMovies;
         }
 
         public async Task<List<Movie>> GetAllMoviesPurchasedByUser(int userId)
@@ -107,7 +105,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Review>> GetAllReviewsByUser(int id)
         {
-            var reviews = await _dbContext.Review.Where(r => r.UserId == id).ToListAsync();
+            var reviews = await _dbContext.Review.Include(r => r.User).Where(r => r.UserId == id).ToListAsync();
 
             return reviews; 
         }
