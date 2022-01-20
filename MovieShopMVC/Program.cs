@@ -26,7 +26,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRepository<Genre>, EfRepository<Genre>>();
 
-builder.Services.AddScoped<ICurrentLoginUserService, CurrentLoginUserService>();
+builder.Services.AddScoped<ICurrentLoginUserService, CurrentLoginUserService>();   
 
 // inject HttpContext
 builder.Services.AddHttpContextAccessor();
