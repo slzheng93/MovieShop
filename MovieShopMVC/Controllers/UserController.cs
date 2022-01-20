@@ -36,8 +36,9 @@ namespace MovieShopMVC.Controllers
                 var userId = Convert.ToInt32( HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
                 // call user service with loged in user id and get the movies user purchsed from Purchase table
 
-          
-            return View();
+                var purchaseDetail = await _userService.GetAllPurchasesForUser(userId);
+
+            return View(purchaseDetail);
         }
 
        
@@ -46,9 +47,10 @@ namespace MovieShopMVC.Controllers
         {
             var userId = Convert.ToInt32(HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
             // call user service with loged in user id and get the movies user purchsed from Purchase table
+            
+            var favoriteDetail = await _userService.GetAllFavoriteForUser(userId);
 
-
-            return View();
+            return View(favoriteDetail);
         }
     }
 }

@@ -8,12 +8,9 @@ namespace ApplicationCore.Models
 {
     public class GenreResponseModel
     {
-        public GenreResponseModel()
-        {
-            MovieDetails = new List<MovieDetailsResponseModel>();
-        }
         public int Id { get; set; }
         public string Name { get; set; }
+
         public List<MovieDetailsResponseModel> MovieDetails { get; set; }
     }
 }

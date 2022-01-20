@@ -23,8 +23,3 @@ namespace ApplicationCore.Contracts.Servicces
         Task<UserReviewResponseModel> GetAllReviewsByUser(int id);
     }
 }
-/*PurchaseRequestModel
-
-FavoriteRequestModel
-
-ReviewRequestModel*/

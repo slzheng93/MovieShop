@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ApplicationCore.Models.FavoriteResponseModel;
 
 namespace Infrastructure.Services
 {
@@ -49,24 +50,29 @@ namespace Infrastructure.Services
 
             return favorite != null;
         }
-        //INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE//INCOMPLETE
+
         public async Task<FavoriteResponseModel> GetAllFavoriteForUser(int id)
         {
-            /*var favorites = await _userRepository.GetAllFavoritesForUser(id);
+            var favorites = await _userRepository.GetAllFavoritesForUser(id);
             
             var favoriteModel = new List<FavoriteResponseModel>();
 
-            /*var favoriteMovies = new List<FavoriteResponseModelFavoriteResponseModel>();
+            var favoriteMovies = new List<FavoriteMovieResponseModel>();
 
             foreach (var favorite in favorites)
             {
-                favoriteModel.Add(new FavoriteResponseModel
+                favoriteMovies.Add(new FavoriteMovieResponseModel
                 {
-                    UserId = id,
-                    FavoriteMovies = favorite.FavoriteOfMovie,
+                    Id = favorite.Id,
+                    PosterUrl = favorite.PosterUrl,
+                    Title = favorite.Title,
                 });
-            }*/
-            return null;//favoriteModel;
+            }
+            return new FavoriteResponseModel
+            {
+                UserId = id,
+                FavoriteMovies = favoriteMovies,
+            };
         }
 
         public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)

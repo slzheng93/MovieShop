@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace ApplicationCore.Contracts.Repositories
     {
         Task<List<Movie>> Get30HighestGrossingMovies();
         Task<decimal> GetMovieRating(int id);
+        Task<List<Movie>> GetMoviesSameGenre(int id);
     }
 }

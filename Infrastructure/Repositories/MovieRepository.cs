@@ -38,5 +38,12 @@ namespace Infrastructure.Repositories
             var movieRating = await _dbContext.Review.Where(r => r.MovieId == id).DefaultIfEmpty().AverageAsync(r => r == null ? 0 : r.Rating);
             return movieRating;
         }
+
+        public async Task<List<Movie>> GetMoviesSameGenre(int id)
+        {
+            var genreMovies = await _dbContext.Movies.Include(m => m.GernesOfMovie).ThenInclude(m => m.Genre).ToListAsync();
+
+            return genreMovies;
+        }
     }
 }
