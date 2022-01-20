@@ -1,25 +1,26 @@
 ﻿@model List<ApplicationCore.Models.MovieCardResponseModel>
-
-<div class="rounded">
-    <div class="container-fluid">
-        <div class="row">
-            <h1></h1>
                 
-                 <div class="rounded">
-                        <div class="container-fluid">
-                            <div class="row"> 
-
-                                @foreach (var movie in Model)
-                                {
-                                    <div class="col-6 col-xl-2 col-sm-4 col-lg-3"> 
-                                        <partial name="_MovieCard" model="movie"/>
-                                    </div>
-                                }
-     
-                            </div>
+    <div class="rounded">
+        <div class="container-fluid">
+            <div class="row"> 
+                <h1 class="text-center">Movies With Similar Genres</h1>
+                    @foreach (var movie in Model)
+                    {
+                        <div class="col-6 col-xl-2 col-sm-4 col-lg-3"> 
+                            <partial name="_MovieCard" model="movie"/>
                         </div>
-                    </div>
-
+                    } 
+            </div>
         </div>
     </div>
-</div>
+    <!--
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    -->

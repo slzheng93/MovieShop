@@ -41,8 +41,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Movie>> GetMoviesSameGenre(int id)
         {
-            var genreMovies = await _dbContext.Movies.Include(m => m.GernesOfMovie).ThenInclude(m => m.Genre).ToListAsync();
-
+            var genreMovies = await _dbContext.MovieGenres.Include(m => m.Movie).Where(m => m.GenreId == id).Select(m => m.Movie).ToListAsync();
             return genreMovies;
         }
     }
