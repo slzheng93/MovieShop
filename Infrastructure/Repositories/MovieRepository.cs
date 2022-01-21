@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ApplicationCore.Models;
 
 namespace Infrastructure.Repositories
 {
-    public class MovieRepository : EfRepository<Movie>,IMovieRepository
+    public class MovieRepository : EfRepository<Movie>, IMovieRepository
     {
-        public MovieRepository(MovieShopDbContext dbContext): base(dbContext)
+        public MovieRepository(MovieShopDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -25,7 +26,7 @@ namespace Infrastructure.Repositories
 
             return movies;
         }
-        public override async Task<Movie> GetById(int id) 
+        public override async Task<Movie> GetById(int id)
         {
             //we use include method in EF, to navigate and load related data
             var movie = await _dbContext.Movies.Include(m => m.Trailers).Include(m => m.MovieCast).ThenInclude(m => m.Cast)
@@ -37,6 +38,22 @@ namespace Infrastructure.Repositories
         {
             var movieRating = await _dbContext.Review.Where(r => r.MovieId == id).DefaultIfEmpty().AverageAsync(r => r == null ? 0 : r.Rating);
             return movieRating;
+        }
+
+        public async Task<PagedResultSet<Movie>> GetMoviesByTitle(int pageSize = 30, int page = 1, string title = "")
+        {
+            // select * from Movies where title like '%ave%' order by title offset 0 fetch next rows 30;
+            var movies = await _dbContext.Movies.Where(m => m.Title.Contains(title)).OrderBy(m => m.Title).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            // total movies  for that condition 
+            // select count(*) from Movies where title like '%ave%'
+
+            var totalMoviesCount = await _dbContext.Movies.Where(m => m.Title.Contains(title)).CountAsync();
+
+            var pagedMovies = new PagedResultSet<Movie>(movies, page, pageSize, totalMoviesCount);
+
+            return pagedMovies;
+
         }
 
         public async Task<List<Movie>> GetMoviesSameGenre(int id)

@@ -117,6 +117,12 @@ namespace Infrastructure.Repositories
             return favorite;
         }
 
+        public async Task<decimal> GetPriceForMovie(int movieId)
+        {
+            var movie = await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == movieId);
+            return movie.Price.GetValueOrDefault();
+        }
+
         public async Task<Purchase> GetPurchasesDetails(int userId, int movieId)
         {
             var purchaseDetail = await _dbContext.Purchase.Where(p => p.UserId == userId && p.MovieId == movieId).SingleOrDefaultAsync();

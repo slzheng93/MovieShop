@@ -14,6 +14,20 @@ namespace MovieShop.API.Controllers
             _movieService = movieService;   
         }
 
+
+        [HttpGet]
+        [Route("")]
+        // http://localhost:73434/api/movies?pagesize=30&page=2&title=ave
+        public async Task<IActionResult> GetMoviesByPagination([FromQuery] int pageSize = 30, [FromQuery] int page =1, string  title= "")
+        {
+            var movies = await _movieService.GetMoviesByPagination(pageSize, page, title);
+            if (movies == null || movies.Count == 0)
+            {
+                return NotFound($"no movies found for your search term {title}");
+            }
+            return Ok(movies);
+        }
+
         [HttpGet]
         [Route("toprevenue")]
         public async Task<IActionResult> GetTopRevenueMovies()

@@ -164,6 +164,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
         {
+            purchaseRequest.TotalPrice = await _userRepository.GetPriceForMovie(purchaseRequest.MovieId);
             var purchase = await _userRepository.AddNewPurchase(userId, purchaseRequest.MovieId, purchaseRequest.TotalPrice);
 
             return purchase != null;

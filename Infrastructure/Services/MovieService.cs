@@ -22,7 +22,8 @@ namespace Infrastructure.Services
             var movieDetails = await _movieRepository.GetById(id);
             var rating = await _movieRepository.GetMovieRating(id);
 
-            var movieModel = new MovieDetailsResponseModel {
+            var movieModel = new MovieDetailsResponseModel
+            {
                 Id = movieDetails.Id,
                 Title = movieDetails.Title,
                 PosterUrl = movieDetails.PosterUrl,
@@ -37,12 +38,12 @@ namespace Infrastructure.Services
                 RunTime = movieDetails.RunTime,
                 Price = movieDetails.Price,
                 Rating = rating,
-                
+
             };
 
             foreach (var genre in movieDetails.GernesOfMovie)
             {
-                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name});
+                movieModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
             }
 
             foreach (var trailer in movieDetails.Trailers)
@@ -52,10 +53,25 @@ namespace Infrastructure.Services
 
             foreach (var cast in movieDetails.MovieCast)
             {
-                movieModel.Casts.Add(new CastModel {Id = cast.CastId, Name = cast.Cast.Name, Character = cast.Character, ProfilePath = cast.Cast.ProfilePath });
+                movieModel.Casts.Add(new CastModel { Id = cast.CastId, Name = cast.Cast.Name, Character = cast.Character, ProfilePath = cast.Cast.ProfilePath });
             }
 
             return movieModel;
+
+        }
+
+        public async Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPagination(int pageSize, int page, string title)
+        {
+            var pagedMovies = await _movieRepository.GetMoviesByTitle(pageSize, page, title);
+
+            var pagedMovieCards = new List<MovieCardResponseModel>();
+
+            pagedMovieCards.AddRange(pagedMovies.Data.Select(m => new MovieCardResponseModel
+            {
+                Id = m.Id, Title = m.Title, PosterUrl = m.PosterUrl
+            }));
+
+            return new PagedResultSet<MovieCardResponseModel>(pagedMovieCards, page, pageSize, pagedMovies.Count);
 
         }
 
@@ -69,11 +85,11 @@ namespace Infrastructure.Services
 
             foreach (var movie in movies)
             {
-                movieCards.Add(new MovieCardResponseModel 
-                { 
-                    Id = movie.Id, 
-                    Title = movie.Title, 
-                    PosterUrl = movie.PosterUrl 
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl
                 });
             }
 
@@ -90,13 +106,12 @@ namespace Infrastructure.Services
             {
                 genreModel.Add(new MovieCardResponseModel
                 {
-                    Id =movie.Id,
-                    Title=movie.Title,
-                    PosterUrl=movie.PosterUrl
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl
                 });
             }
             return genreModel;
         }
     }
 }
-    

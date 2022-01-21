@@ -25,5 +25,6 @@ namespace ApplicationCore.Contracts.Repositories
         Task<Review> AddMovieReview(int userId, int movieId, decimal rating, string text);
         Task<Review> UpdateMovieReview(int userId, int movieId, decimal rating, string text);
         Task<Review> DeleteMovieReview(int userId, int movieId);
+        Task<decimal> GetPriceForMovie(int movieId);
     }
 }

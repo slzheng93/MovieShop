@@ -13,5 +13,7 @@ namespace ApplicationCore.Contracts.Repositories
         Task<List<Movie>> Get30HighestGrossingMovies();
         Task<decimal> GetMovieRating(int id);
         Task<List<Movie>> GetMoviesSameGenre(int id);
+
+        Task<PagedResultSet<Movie>> GetMoviesByTitle(int pageSize = 30, int page = 1, string title = "");
     }
 }
