@@ -304,12 +304,6 @@ will package the code ans stores it
 
 CD => takes the code and deploy it to Azure App Service => MovieShopMVC => change the connectionstring to point to Azure SQL
 
-Azure SQL 
-
-lip27khzkiuviccryv77r42r6okagzqjeq2rwu7rwcgu6jtlrsgq
-
-Server=tcp:zhengservers.database.windows.net,1433;Initial Catalog=MovieShop;Persist Security Info=False;User ID=zheng;Password=mVVLwV83czSe$Wn;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
-
 #######
 mVVLwV83czSe$Wn   sql-password-username-zheng
 

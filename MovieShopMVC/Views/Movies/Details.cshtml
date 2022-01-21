@@ -34,11 +34,11 @@
                 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button>
+                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button>
                     }
                     else
                     {
-                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
+                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
                     }
                    
             </div>
@@ -84,11 +84,11 @@
             <div class="btn float-end">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Buy $@Model.Price</button>
+                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Buy $@Model.Price</button>
                     }
                     else
                     {
-                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Purchase </a>
+                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" asp-controller="Account" asp-action="Login"> Login To Purchase </a>
                     }
                 </button></div>
             <!--Price Modal Confirguration-->
