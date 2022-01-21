@@ -318,11 +318,30 @@ Cannot open server 'zhengservers' requested by the login. Client with IP address
  rule for this IP address or address range.  It may take up to five minutes for this change to take effect. 
 
 
+#API => Application Programming Interface
+
+Web Services => SOAP based XML based and SOAP Protocol (old)
+              => REST architecture pattern => HTTP => JSON data
+
+Company XYZ
+
+.NET Team => Movie Shop C# **ASP.NET MVC** => SQL Server Database, API => that exposs JSON data over HTTP
+ 
+ASP.NET API
+GET http://movieshop/api/movies/toprevenue => JSON data
+ POST http://movieshop/api/account
+
+Java Team
+
+iOS Team => Swift => iOS => to revenue movie =>  
+
+    http://movieshop/api/movies/toprevenue 
 
 
+Android Team => Java
 
-
-
+Front-End Team => React/Angular
+               website => Angular =>
 
 
 

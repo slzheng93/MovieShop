@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Contracts.Servicces;
+using ApplicationCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -37,7 +38,7 @@ namespace MovieShopMVC.Controllers
                 // call user service with loged in user id and get the movies user purchsed from Purchase table
 
                 var purchaseDetail = await _userService.GetAllPurchasesForUser(userId);
-
+                
             return View(purchaseDetail);
         }
 
@@ -51,6 +52,13 @@ namespace MovieShopMVC.Controllers
             var favoriteDetail = await _userService.GetAllFavoriteForUser(userId);
 
             return View(favoriteDetail);
+        }
+        [HttpPost]
+        public async Task<IActionResult> BuyAMovie(PurchaseRequestModel model)
+        {
+            var buying = await _userService.PurchaseMovie(model, model.UserId);
+
+            return View(buying);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿@model ApplicationCore.Models.MovieDetailsResponseModel
-
+@using System.Security.Claims
+@using MovieShopMVC.Helpers
+@inject ICurrentLoginUserService _currentUser
 
 <div class="container" style="border-inline-width">
     <!--Setting Poster and Background Image-->
@@ -28,7 +30,18 @@
         </div>
         <div class="col-2 p-3 mb-2 bg-gradient-primary text-white">
             <!--Review Button-->
-            <div class="btn float-end"><button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button></div>
+            <div class="btn float-end">
+                
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button>
+                    }
+                    else
+                    {
+                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
+                    }
+                   
+            </div>
             <!--Review Modal Confirguration-->
             <div class="modal fade" id="ReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -60,30 +73,44 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Leave a Review</button>
-                  </div>
+
+                        <button type="submit" class="btn btn-primary">Leave a Review</button>
+
+                    </div>
                 </div>
               </div>
             </div>
             <!--Price Button-->
-            <div class="btn float-end"><button type="button" class="btn btn-outline-light btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#PurchaseModal">Buy $@Model.Price</button></div>
+            <div class="btn float-end">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Buy $@Model.Price</button>
+                    }
+                    else
+                    {
+                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Purchase </a>
+                    }
+                </button></div>
             <!--Price Modal Confirguration-->
             <div class="modal fade" id="PurchaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title text-black" id="staticBackdropLabel">Purchase Movie: @Model.Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body text-black">
-                    ...
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Purchase $@Model.Price</button>
-                  </div>
+              
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                              <h5 class="modal-title text-black" id="staticBackdropLabel">Purchase Movie: @Model.Title</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-black">
+                              !!!Thank You For Purchasing The Movie!!!
+                        </div
+
+                        <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Purchase $@Model.Price</button>
+                        </div>
+
+                    </div>
                 </div>
-              </div>
             </div>
 
         </div>
