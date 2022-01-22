@@ -2,196 +2,173 @@
 @using System.Security.Claims
 @using MovieShopMVC.Helpers
 @inject ICurrentLoginUserService _currentUser
-
-<div class="container" style="border-inline-width">
-    <!--Setting Poster and Background Image-->
-    <div class="row position-relative" style="background:linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ),url(@Model.BackdropUrl); background-size:cover">
-
-        <div class="col-4 mb-4 p-3 mb-2 mt-4 bg-gradient-primary text-white"><img src="@Model.PosterUrl"/></div>
-        <!--Tittle Information and Detail Information-->
-        <div class="col-6 p-3 mb-2 bg-gradient-primary text-white">
-            <h1>@Model.Title</h1>
-            <div>
-                <span class="text-white-50">@Model.Tagline</span>
-                <div>
-                    <span class="text-white-50">@Model.RunTime | @Model.ReleaseDate.Value.ToString("yyyy")</span>
-                </div>
-                @foreach (var genre in Model.Genres)
-                {
-                    <span class="badge bg-success">@genre.Name</span>
-                }
-                <div>
-                    <span class="badge bg-secondary">Rating: @string.Format("{0:0.00}",@Model.Rating)</span>
-                </div>
-                <p class="text-white-200">@Model.Overview</p>
+<div class="container-fluid" style="border-inline-width">
+<!--Setting Poster and Background Image-->
+<div class="row position-relative" style="background:linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ),url(@Model.BackdropUrl); background-size:cover">
+<div class="col-4 mb-4 p-3 mb-2 mt-4 bg-gradient-primary text-white"><img src="@Model.PosterUrl"/></div>
+<!--Tittle Information and Detail Information-->
+<div class="col-6 p-3 mb-2 bg-gradient-primary text-white">
+   <h1>@Model.Title</h1>
+   <div>
+      <span class="text-white-50">@Model.Tagline</span>
+      <div>
+         <span class="text-white-50">@Model.RunTime | @Model.ReleaseDate.Value.ToString("yyyy")</span>
+      </div>
+      @foreach (var genre in Model.Genres)
+      {
+      <span class="badge bg-success">@genre.Name</span>
+      }
+      <div>
+         <span class="badge bg-secondary">Rating: @string.Format("{0:0.00}",@Model.Rating)</span>
+      </div>
+      <p class="text-white-200">@Model.Overview</p>
+   </div>
+</div>
+<div class="col-2 p-3 mb-2 bg-gradient-primary text-white">
+   <!--Review Button-->
+   <div class="btn float-end">
+      @if (User.Identity.IsAuthenticated)
+      {
+      <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button>
+      }
+      else
+      {
+      <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
+      }
+   </div>
+    a<!--Price Button-->
+    <div class="btn float-end">
+        @if (User.Identity.IsAuthenticated)
+        {
+        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#PurchaseModal">Buy $@Model.Price</button>
+        }
+        else
+        {
+        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Purchase </a>
+        }
+    </div>
+   <!--Review Modal Confirguration-->
+   <div class="modal fade" id="ReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header text-sm-center">
+               <h5 class="modal-title text-black " id="staticBackdropLabel">Leave a Review for @Model.Title</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-        <div class="col-2 p-3 mb-2 bg-gradient-primary text-white">
-            <!--Review Button-->
-            <div class="btn float-end">
-                
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#ReviewModal">Review</button>
-                    }
-                    else
-                    {
-                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
-                    }
-                   
-            </div>
-            <!--Review Modal Confirguration-->
-            <div class="modal fade" id="ReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header text-sm-center">
-                    <h5 class="modal-title text-black " id="staticBackdropLabel">Leave a Review for @Model.Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body text-black">
+               <form asp-controller="User" asp-action="ReviewMovie" method="post">
+                  <div class="custom-control custom-radio custom-control-inline  text-sm-center">
+                     <input type="radio" name="Rating" value="1" class="custom-control-input">
+                     <label class="custom-control-label" for="customRadioInline1">1-Star  </label>
+                     <input type="radio" name="Rating" value="2" class="custom-control-input">
+                     <label class="custom-control-label" for="customRadioInline2">2-Stars  </label>
+                     <input type="radio" name="Rating" value="3" class="custom-control-input">
+                     <label class="custom-control-label" for="customRadioInline2">3-Stars  </label>
+                     <input type="radio" name="Rating" value="4" class="custom-control-input">
+                     <label class="custom-control-label" for="customRadioInline2">4-Stars  </label>
+                     <input type="radio" name="Rating" value="5" class="custom-control-input">
+                     <label class="custom-control-label" for="customRadioInline2">5-Stars  </label>
                   </div>
-                  <div class="modal-body text-black">
-      @*              <form>
-                        <div class="custom-control custom-radio custom-control-inline  text-sm-center">
-                            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioInline1">1-Star  </label>
-
-                             <input type="radio" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
-                             <label class="custom-control-label" for="customRadioInline2">2-Stars  </label>
-
-                             <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
-                             <label class="custom-control-label" for="customRadioInline2">3-Stars  </label>
-
-                             <input type="radio" id="customRadioInline4" name="customRadioInline1" class="custom-control-input">
-                             <label class="custom-control-label" for="customRadioInline2">4-Stars  </label>
-
-                             <input type="radio" id="customRadioInline5" name="customRadioInline1" class="custom-control-input">
-                             <label class="custom-control-label" for="customRadioInline2">5-Stars  </label>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Feedback:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                        </div
-                    </form>*@
-
-                  </div>
-                  <div class="modal-footer text-sm-center">
+                  <input name="UserId" value="@_currentUser.UserId"  type="hidden"  />
+                  <input name="MovieId" value="@Model.Id"  type="hidden"  />
+                  <div class="mb-3">
+                     <label for="message-text" class="col-form-label">Feedback:</label>
+                     <textarea name="ReviewText" class="form-control" id="message-text"></textarea>
+                     </div
+                     <div class="modal-footer text-sm-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
                         <button type="submit" class="btn btn-primary">Leave a Review</button>
-
-                    </div>
-                </div>
-              </div>
+                     </div>
+               </form>
+               </div>
             </div>
-            <!--Price Button-->
-            <div class="btn float-end">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <button type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#PurchaseModal">Buy $@Model.Price</button>
-                    }
-                    else
-                    {
-                        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-sm btn-block" asp-controller="Account" asp-action="Login"> Login To Purchase </a>
-                    }
-                </button></div>
-            <!--Price Modal Confirguration-->
-            <div class="modal fade" id="PurchaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                              <h5 class="modal-title text-black text-sm-center" id="staticBackdropLabel">Purchase Movie: @Model.Title</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+      </div>
+
+      <!--Price Modal Confirguration-->
+      <div class="modal fade" id="PurchaseModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title text-black text-sm-center" id="staticBackdropLabel">Purchase Movie: @Model.Title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body text-black text-sm-center">
+                  !!!Thank You For Purchasing The Movie!!!
+                  </div
+                  <div class="modal-footer">
+                     <form asp-controller="User" asp-action="BuyAMovie" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                           <input name="UserId" value="@_currentUser.UserId"  type="hidden"  />
+                           <input name="MovieId" value="@Model.Id"  type="hidden"  />
                         </div>
-                        <div class="modal-body text-black text-sm-center">
-                              !!!Thank You For Purchasing The Movie!!!
-                        </div
-
-                        <div class="modal-footer">
-                            <form asp-controller="User" asp-action="BuyAMovie" method="post">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group">
-                                    @*<span asp-for="@_currentUser.UserId" value="@_currentUser.UserId" class="text-danger"></span>
-                                    <span asp-for="@Model.Id" value="@Model.Id" class="text-danger"></span>
-                                    <span asp-for="@Model.Price" value="@Model.Price" class="text-danger"></span>
-                                    <span asp-for="@DateTime.Now" value="@DateTime.Now" class="text-danger"></span>*@
-
-                                    <input name="UserId" value="@_currentUser.UserId"  type="hidden"  />
-                                    <input name="MovieId" value="@Model.Id"  type="hidden"  />
-
-                                </div>
-                                <div class="text-sm-center">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-@*                                    <button type="submit" class="btn btn-primary">Purchase $@Model.Price</button>
-*@                                    <input type="submit"  class="btn btn-primary" value="Purchase Movie" />
-                                </div>
-                            </form>
-                              
+                        <div class="text-sm-center">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <input type="submit"  class="btn btn-primary" value="Purchase Movie" />
                         </div>
-
-                    </div>
-                </div>
+                     </form>
+                  </div>
+               </div>
             </div>
-
-        </div>
-    </div>
-    <div class="row mt-4">
-        <!--Movie Facts and Trailers-->
-        <div class="col-3 mb-4">
-            <h4>MOVIE FACTS</h4>            
-                <ul class="list-group list-group-flush mb-4">  
-                    <li class="list-group-item">Release Date @Model.ReleaseDate.Value.ToString("MM/dd/yyyy")</li>
-                    <li class="list-group-item">Run Time @Model.RunTime m</li>
-                    <li class="list-group-item">Box Office @string.Format("{0:C}",Model.Revenue)</li>
-                    <li class="list-group-item">Budget @string.Format("{0:C}",@Model.Budget)</li>
-                </ul>
-            
-             <div>
-                <h4>TRAILERS</h4>
-                @{
-                    int count = 0;
-                    foreach (var trailer in Model.Trailers)
-                    {
-                        count = count + 1;
-                        <ul class="list-group list-group-flush">
-                          <a href="@trailer.TrailerUrl" class="list-group-item">@Model.Title: Trailer @count</a>
-                        </ul>
-                    }
-                }
+         </div>
+      </div>
+   </div>
+   <div class="row mt-4">
+      <!--Movie Facts and Trailers-->
+      <div class="col-3 mb-4">
+         <h4>MOVIE FACTS</h4>
+         <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item">Release Date @Model.ReleaseDate.Value.ToString("MM/dd/yyyy")</li>
+            <li class="list-group-item">Run Time @Model.RunTime m</li>
+            <li class="list-group-item">Box Office @string.Format("{0:C}",Model.Revenue)</li>
+            <li class="list-group-item">Budget @string.Format("{0:C}",@Model.Budget)</li>
+         </ul>
+         <div>
+            <h4>TRAILERS</h4>
+            @{
+            int count = 0;
+            foreach (var trailer in Model.Trailers)
+            {
+            count = count + 1;
+            <ul class="list-group list-group-flush">
+               <a href="@trailer.TrailerUrl" class="list-group-item">@Model.Title: Trailer @count</a>
+            </ul>
+            }
+            }
+         </div>
+      </div>
+      <!--Cast Informations-->   
+      <div class="col-9">
+         <div class="row row-cols-1">
+            <h4>CAST</h4>
+         </div>
+         <div class="row row-cols-3">
+            @foreach (var cast in Model.Casts)
+            {
+            <div class="col align-items-center">
+               <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id">
+                  <ul class="list-group list-group-flush" >
+                     <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
+                  </ul>
+               </a>
             </div>
-        </div>
-        <!--Cast Informations-->   
-            <div class="col-9">
-                <div class="row row-cols-1">
-                    <h4>CAST</h4>
-                </div>  
-                    <div class="row row-cols-3">
-                        @foreach (var cast in Model.Casts)
-                        {
-                            <div class="col align-items-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id">
-                                    <ul class="list-group list-group-flush" >
-                                        <li class="list-group-item"><img src="@cast.ProfilePath" style="width:25%"class="rounded-circle img-fluid img-thumbnail"/></li>
-                                    </ul>
-                                </a> 
-                            </div>
-                            <div class="col align-self-md-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">@cast.Name</li>
-                                   </ul>
-                                </a>
-                            </div>
-                            <div class="col align-self-md-center">
-                                <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
-                                    <ul class="list-group list-group-flush">
-                                    
-                                        <li class="list-group-item">@cast.Character</li>
-                                    </ul>
-                                </a>
-                            </div>
-                        }
-                    </div>             
+            <div class="col align-self-md-center">
+               <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
+                  <ul class="list-group list-group-flush">
+                     <li class="list-group-item">@cast.Name</li>
+                  </ul>
+               </a>
             </div>
-    </div>
+            <div class="col align-self-md-center">
+               <a asp-controller="Cast" asp-action="CastDetails" asp-route-id="@cast.Id" class="text-decoration-none">
+                  <ul class="list-group list-group-flush">
+                     <li class="list-group-item">@cast.Character</li>
+                  </ul>
+               </a>
+            </div>
+            }
+         </div>
+      </div>
+   </div>
 </div>

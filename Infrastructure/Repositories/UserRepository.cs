@@ -49,21 +49,6 @@ namespace Infrastructure.Repositories
                 return newReview;
             }
         }
-                                                      
-        public async Task<Purchase> AddNewPurchase(int userId, int movieId, decimal price)
-        {
-            var purchase = await _dbContext.Purchase.Where(r => r.UserId == userId && r.MovieId== movieId).SingleOrDefaultAsync();
-
-            if(purchase == null)
-            {
-                Purchase newPurchase = new Purchase { UserId = userId, MovieId = movieId, TotalPrice = price, PurchaseDateTime = DateTime.Now, PurchaseNumber = Guid.NewGuid()};
-                await _dbContext.Purchase.AddAsync(newPurchase);
-                await _dbContext.SaveChangesAsync();
-
-                return newPurchase;
-            }
-            return purchase;
-        }
 
         public async Task<Review> DeleteMovieReview(int userId, int movieId)
         {
@@ -99,7 +84,7 @@ namespace Infrastructure.Repositories
         public async Task<List<Purchase>> GetAllPurchasesForUser(int id)
         {
             var purchases = await _dbContext.Purchase.Where(p => p.UserId == id).ToListAsync();
-            
+
             return purchases;
         }
 

@@ -13,21 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-
 builder.Services.AddScoped<ICastService, CastService>();
-builder.Services.AddScoped<ICastRepository, CastRepository>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-
 builder.Services.AddScoped<IAccountService, AccountService>();
-
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<ICurrentLoginUserService, CurrentLoginUserService>();
+
+builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddScoped<ICastRepository, CastRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepository<Genre>, EfRepository<Genre>>();
-
-builder.Services.AddScoped<ICurrentLoginUserService, CurrentLoginUserService>();   
-
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 // inject HttpContext
 builder.Services.AddHttpContextAccessor();
 
