@@ -45,6 +45,36 @@ namespace MovieShopMVC.Controllers
             
             return View(purchaseDetail);
         }
+        [HttpPost]
+        public async Task<IActionResult> Favorite(FavoriteRequestModel model)
+        {
+            var userId = Convert.ToInt32(HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var result = await _userService.FavoriteExists(userId, model.MovieId);
+
+            if (result)
+            {
+                return RedirectToAction("AlreadyFavorited");
+            }
+            else
+            {
+                await _userService.AddFavorite(model);
+                return View();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UnFavorite(FavoriteRequestModel model)
+        {
+            var isFavorite = await _userService.FavoriteExists(model.UserId, model.MovieId);
+            if (isFavorite)
+            {
+                await _userService.RemoveFavorite(model);
+                return RedirectToAction("FavoriteRemoved");
+            }
+            else
+            {
+                return RedirectToAction("NoTFavorite");
+            }
+        }
         [HttpGet]
         public async Task<IActionResult> Favorited()
         {
@@ -53,7 +83,7 @@ namespace MovieShopMVC.Controllers
             
             var favoriteDetail = await _userService.GetAllFavoriteForUser(userId);
 
-            return View();
+            return View(favoriteDetail);
         }
         [HttpPost]
         public async Task<IActionResult> BuyAMovie(PurchaseRequestModel model)
@@ -66,7 +96,7 @@ namespace MovieShopMVC.Controllers
             }
             else
             {
-                var purchase = _userService.PurchaseMovie(model, model.UserId);
+                await _userService.PurchaseMovie(model, model.UserId);
                 return View();
             }
         }
@@ -78,6 +108,18 @@ namespace MovieShopMVC.Controllers
             return View();
         }
         public async Task<IActionResult> AlreadyPurchased()
+        {
+            return View();
+        }
+        public async Task<IActionResult> AlreadyFavorited()
+        {
+            return View();
+        }
+        public async Task<IActionResult> FavoriteRemoved()
+        {
+            return View();
+        }
+        public async Task<IActionResult> NoTFavorite()
         {
             return View();
         }

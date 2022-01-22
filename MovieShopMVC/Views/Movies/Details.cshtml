@@ -36,6 +36,25 @@
       <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Leave A Review </a>
       }
    </div>
+   <!--Fvorite Button-->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-controller="User" asp-action="Favorite" method="post">
+                <input name="UserId" value="@_currentUser.UserId"  type="hidden"  />
+                 <input name="MovieId" value="@Model.Id"  type="hidden"  />
+                <button type="submit" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block">Click To Favorited</button>
+            </form>
+            <form asp-controller="User" asp-action="UnFavorite" method="post">
+                <input name="UserId" value="@_currentUser.UserId"  type="hidden"  />
+                 <input name="MovieId" value="@Model.Id"  type="hidden"  />
+                <button type="submit" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block">Click To Favorited</button>
+            </form>
+        }
+        else
+        {
+        <a type="button" class="btn btn-outline-light mb-4 mt-4 btn-lg btn-block" asp-controller="Account" asp-action="Login"> Login To Favorited it </a>
+        }
+
     <!--Price Button-->
     <div class="btn float-end">
         @if (User.Identity.IsAuthenticated)

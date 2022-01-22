@@ -1,4 +1,7 @@
 ﻿@model List<ApplicationCore.Models.MovieCardResponseModel>
+@using System.Security.Claims
+@using MovieShopMVC.Helpers
+@inject ICurrentLoginUserService _currentUser
 
 @{
     ViewData["Title"] = "Home Page";
