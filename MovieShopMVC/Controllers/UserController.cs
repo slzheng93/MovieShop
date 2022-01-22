@@ -40,13 +40,11 @@ namespace MovieShopMVC.Controllers
             // call user service with loged in user id and get the movies user purchsed from Purchase table
 
             var purchaseDetail = await _userService.GetAllPurchasesForUser(userId);
-
+            
            
             
             return View(purchaseDetail);
         }
-
-       
         [HttpGet]
         public async Task<IActionResult> Favorited()
         {

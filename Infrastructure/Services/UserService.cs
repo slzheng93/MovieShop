@@ -79,37 +79,27 @@ namespace Infrastructure.Services
 
         public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
         {
-            var purchaseUser = await _userRepository.GetAllPurchasesForUser(id);
-            var purchaseModel = new List<PurchaseResponseModel>();
-            var purchasedMovies = new List<MovieDetailsResponseModel>();
-
+            var movieLists = await _userRepository.GetAllPurchasesForUser(id);
+            var listOfMovies = new List<MovieDetailsResponseModel>();
             int count = 0;
-          
-            foreach (var item in purchaseUser)
+
+            foreach (var movie in movieLists)
             {
-                while(item.Id != null)
+                listOfMovies.Add(new MovieDetailsResponseModel
                 {
-                    count++;
-                }
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    PosterUrl = movie.PosterUrl,
+                    Price = movie.Price
+                });
+                count++;
             }
 
-            foreach (var purchase in purchaseUser)
-            {
-                purchasedMovies.Add(new MovieDetailsResponseModel
-                {
-                    Id = purchase.MovieId,
-                    Title = purchase.Movie.Title,
-                    BackdropUrl = purchase.Movie.BackdropUrl,
-                    ImdbUrl = purchase.Movie.ImdbUrl,
-                    ReleaseDate = purchase.Movie.ReleaseDate,
-                });
-            }
-            
             return new PurchaseResponseModel
             {
                 UserId = id,
                 TotalMoviesPurchased = count,
-                PurchasedMovies = purchasedMovies
+                PurchasedMovies = listOfMovies
             };
 
 

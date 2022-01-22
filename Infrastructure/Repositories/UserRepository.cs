@@ -74,18 +74,11 @@ namespace Infrastructure.Repositories
             return favoriteMovies;
         }
 
-        public async Task<List<Movie>> GetAllMoviesPurchasedByUser(int userId)
+        public async Task<List<Movie>> GetAllPurchasesForUser(int userId)
         {
             var movies = await _dbContext.Purchase.Include(p => p.Movie).Where(p => p.UserId == userId).Select(p => p.Movie).ToListAsync();
 
             return movies;
-        }
-
-        public async Task<List<Purchase>> GetAllPurchasesForUser(int id)
-        {
-            var purchases = await _dbContext.Purchase.Where(p => p.UserId == id).ToListAsync();
-
-            return purchases;
         }
 
         public async Task<List<Review>> GetAllReviewsByUser(int id)

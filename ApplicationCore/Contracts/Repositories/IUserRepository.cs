@@ -11,11 +11,11 @@ namespace ApplicationCore.Contracts.Repositories
     {
         Task<User> GetUserByEmail(string email);
         Task<Review> GetReviewByUserAndMovie(int userId, int movieId);
-        Task<List<Movie>> GetAllMoviesPurchasedByUser(int userId);
+        //Task<List<Movie>> GetAllMoviesPurchasedByUser(int userId);
         //Task<Purchase> AddNewPurchase(int userId, int movieId, decimal price);
         Task<Favorite> GetFavorite(int userId, int movieId);
 
-        Task<List<Purchase>> GetAllPurchasesForUser(int id);
+        Task<List<Movie>> GetAllPurchasesForUser(int id);
         Task<Purchase> GetPurchasesDetails(int userId, int movieId);
         Task<List<Movie>> GetAllFavoritesForUser(int id);
         Task<Favorite> AddFavorite(int userId, int movieId);
