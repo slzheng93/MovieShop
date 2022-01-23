@@ -16,6 +16,7 @@ namespace ApplicationCore.Contracts.Repositories
         Task<Favorite> GetFavorite(int userId, int movieId);
 
         Task<List<Movie>> GetAllPurchasesForUser(int id);
+        Task<List<Purchase>> GetAllPurchaseDetailByUserId(int id);
         Task<Purchase> GetPurchasesDetails(int userId, int movieId);
         Task<List<Movie>> GetAllFavoritesForUser(int id);
         Task<Favorite> AddFavorite(int userId, int movieId);
@@ -25,5 +26,7 @@ namespace ApplicationCore.Contracts.Repositories
         Task<Review> UpdateMovieReview(int userId, int movieId, decimal rating, string text);
         Task<Review> DeleteMovieReview(int userId, int movieId);
         Task<decimal> GetPriceForMovie(int movieId);
+        Task<Purchase> RemovePurchase(int userId, int movieId);
+        
     }
 }

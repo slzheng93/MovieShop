@@ -34,6 +34,10 @@ namespace Infrastructure.Repositories
 
         public async Task<Review> AddMovieReview(int userId, int movieId, decimal rating, string text)
         {
+            if(rating > 5)
+            {
+                rating = 5;
+            }
             var MovieReview = await _dbContext.Review.Where(r => r.UserId == userId && r.MovieId == movieId).SingleOrDefaultAsync();
             
             if(MovieReview == null)
@@ -133,6 +137,19 @@ namespace Infrastructure.Repositories
             }
             return null;
         }
+        public async Task<Purchase> RemovePurchase(int userId, int MovieId)
+        {
+            var movie = await _dbContext.Purchase.Where(p => p.UserId == userId && p.MovieId == MovieId).SingleOrDefaultAsync();
+
+            if (movie != null)
+            {
+                _dbContext.Purchase.Remove(movie);
+                await _dbContext.SaveChangesAsync();
+                return movie;
+            }
+            return null;
+        }
+
 
         public async Task<Review> UpdateMovieReview(int userId, int movieId, decimal rating, string text)
         {
@@ -140,20 +157,28 @@ namespace Infrastructure.Repositories
 
             if (updateReview == null)
             {
-                var newReview = await AddMovieReview(userId, movieId, rating, text);    
+                var newReview = await AddMovieReview(userId, movieId, rating, text);
                 return newReview;
-            }
+            }          
             else
             {
 
-                var result = await _dbContext.Review.Where(r => r.UserId == userId && r.MovieId == movieId).SingleOrDefaultAsync();
-
-                result.Rating = rating;
-                result.ReviewText = text;
+                //var result = await _dbContext.Review.Where(r => r.UserId == userId && r.MovieId == movieId).SingleOrDefaultAsync();
+                
+                updateReview.Rating = rating;
+                updateReview.ReviewText = text;
+                //await AddMovieReview(userId,movieId,updateReview.Rating,updateReview.ReviewText);
                 await _dbContext.SaveChangesAsync();
 
-                return result;
+                return updateReview;
             }
+        }
+
+        public async Task<List<Purchase>> GetAllPurchaseDetailByUserId(int id)
+        {
+            var purchase = await _dbContext.Purchase.Where(p => p.UserId == id).ToListAsync();
+
+            return purchase;
         }
     }
 }

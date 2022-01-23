@@ -1,0 +1,23 @@
+﻿@model ApplicationCore.Models.UserReviewResponseModel
+
+<h1 class="text-lg-center">View Review</h1>
+
+    @foreach (var review in Model.MovieReview)
+    {
+        <div class="row text-sm-center">
+            <div class="col-6">
+                <ul>
+                    <li>
+                        The Movie Id is : @review.MovieId
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6">
+                <ul>
+                    <li>
+                        Your Review For the Movie : @review.ReviewText
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }

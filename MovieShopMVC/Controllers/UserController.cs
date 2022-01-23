@@ -46,6 +46,21 @@ namespace MovieShopMVC.Controllers
             return View(purchaseDetail);
         }
         [HttpPost]
+        public async Task<IActionResult> BuyAMovie(PurchaseRequestModel model)
+        {
+            var result = await _userService.IsMoviePurchased(model, model.UserId);
+
+            if (result)
+            {
+                return RedirectToAction("AlreadyPurchased");
+            }
+            else
+            {
+                await _userService.PurchaseMovie(model, model.UserId);
+                return View();
+            }
+        }
+        [HttpPost]
         public async Task<IActionResult> Favorite(FavoriteRequestModel model)
         {
             var userId = Convert.ToInt32(HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
@@ -82,25 +97,18 @@ namespace MovieShopMVC.Controllers
             // call user service with loged in user id and get the movies user purchsed from Purchase table
             
             var favoriteDetail = await _userService.GetAllFavoriteForUser(userId);
-
+            
             return View(favoriteDetail);
         }
-        [HttpPost]
-        public async Task<IActionResult> BuyAMovie(PurchaseRequestModel model)
+        [HttpGet]
+        public async Task<IActionResult> Profile()
         {
-            var result = await _userService.IsMoviePurchased(model, model.UserId);
+            var userId = Convert.ToInt32(HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
 
-            if (result)
-            {
-                return RedirectToAction("AlreadyPurchased");
-            }
-            else
-            {
-                await _userService.PurchaseMovie(model, model.UserId);
-                return View();
-            }
+            var userDetail = await _userService.GetAllReviewsByUser(userId);
+
+            return View(userDetail);
         }
-        [HttpPost]
         public async Task<IActionResult> ReviewMovie(ReviewRequestModel model)
         {
             await _userService.AddMovieReview(model);

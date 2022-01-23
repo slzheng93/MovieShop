@@ -25,9 +25,7 @@ namespace Infrastructure.Services
 
         public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
         {
-            int userId = favoriteRequest.UserId;
-            int movieId = favoriteRequest.MovieId;
-            var addFavorite = await _userRepository.AddFavorite(userId, movieId);
+            var addFavorite = await _userRepository.AddFavorite(favoriteRequest.UserId, favoriteRequest.MovieId);
         }
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)
@@ -50,7 +48,14 @@ namespace Infrastructure.Services
         {
             Favorite favorite = await _userRepository.GetFavorite(id, movieId);
 
-            return favorite != null;
+            if(favorite == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public async Task<FavoriteResponseModel> GetAllFavoriteForUser(int id)
@@ -157,7 +162,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> PurchaseMovie(PurchaseRequestModel purchaseRequest, int userId)
         {
-            purchaseRequest.TotalPrice = await _userRepository.GetPriceForMovie(purchaseRequest.MovieId);
+            decimal price = await _userRepository.GetPriceForMovie(purchaseRequest.MovieId);
             var movieDetail = await _movieRepository.GetById(purchaseRequest.MovieId);
 
             var newPurchase = new Purchase
@@ -165,8 +170,8 @@ namespace Infrastructure.Services
                 MovieId = movieDetail.Id,
                 UserId = userId,
                 PurchaseNumber = Guid.NewGuid(),
-                TotalPrice = purchaseRequest.TotalPrice,
-                PurchaseDateTime = purchaseRequest.PurchaseDateTime,
+                TotalPrice = price,
+                PurchaseDateTime = DateTime.Now,
             };
 
 
@@ -184,20 +189,44 @@ namespace Infrastructure.Services
 
             //var purchase = await _userRepository.AddNewPurchase(userId, purchaseRequest.MovieId, purchaseRequest.TotalPrice);
 
-        public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
+        public async Task RemoveFavorite(FavoriteRequestModel model)
         {
-            await _userRepository.RemoveFavorite(favoriteRequest.UserId, favoriteRequest.MovieId);
+            await _userRepository.RemoveFavorite(model.UserId, model.MovieId);
         }
 
         public async Task UpdateMovieReview(ReviewRequestModel reviewRequest)
         {
             var updateReview = await _userRepository.UpdateMovieReview
                 (
-                    reviewRequest.MovieId,
                     reviewRequest.UserId,
+                    reviewRequest.MovieId,
                     reviewRequest.Rating,
                     reviewRequest.ReviewText
                 );
+        }
+        public async Task RemovePurchase(int userId, int movieId)
+        {
+            await _userRepository.RemovePurchase(userId, movieId);
+        }
+
+        public async Task<List<PurchaseDetailsResponseModel>> GetAllPurchaseDetailByUserId(int userId)
+        {
+            var purchasesDetail = await _userRepository.GetAllPurchaseDetailByUserId(userId);
+            var purchasesModel = new List<PurchaseDetailsResponseModel>();
+
+            foreach (var purchase in purchasesDetail)
+            {
+                purchasesModel.Add(new PurchaseDetailsResponseModel
+                {
+                    Id = purchase.Id,
+                    PurchaseDateTime = purchase.PurchaseDateTime,
+                    PurchaseNumber = purchase.PurchaseNumber,
+                    TotalPrice = purchase.TotalPrice,
+                    UserId = userId,
+                });
+            }
+            return purchasesModel;
+            
         }
     }
 }

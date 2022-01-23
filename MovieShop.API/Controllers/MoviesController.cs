@@ -8,10 +8,11 @@ namespace MovieShop.API.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        private readonly IMovieService _movieService;
-        public MoviesController(IMovieService movieService)
+        private readonly IMovieService _movieService; IUserService _userService;
+        public MoviesController(IMovieService movieService, IUserService userService)
         {
-            _movieService = movieService;   
+            _movieService = movieService;
+            _userService = userService;
         }
 
 
@@ -50,6 +51,42 @@ namespace MovieShop.API.Controllers
             if(movie == null)
                 return NotFound();
             return Ok(movie);
+        }
+        [HttpGet]
+        [Route("Top30Movies")]
+        public async Task<IActionResult> GetAllMovies()
+        {
+            var movies = await _movieService.GetTop30GrossingMovies();
+
+            if(!movies.Any() || movies.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(movies);
+        }
+        [HttpGet]
+        [Route("genre/{id:int}")] 
+        public async Task<IActionResult> GetMovieByGenreId(int id)
+        {
+            var genreMovies = await _movieService.MoviesSameGenre(id);
+
+            if (!genreMovies.Any())
+            {
+                return NotFound();
+            }
+            return Ok(genreMovies);
+        }
+        [HttpGet]
+        [Route("{id:int}/reviews")]
+        public async Task<IActionResult> GetReviewsByUserId(int id)
+        {
+            var userMovieReviews = await _userService.GetAllReviewsByUser(id);
+            
+            if(userMovieReviews == null)
+            {
+                return NotFound();
+            }
+            return Ok(userMovieReviews);
         }
     }
 }

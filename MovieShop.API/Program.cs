@@ -20,6 +20,8 @@ builder.Services.AddScoped<IRepository<Genre>, EfRepository<Genre>>();
 builder.Services.AddScoped<ICastRepository, CastRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
