@@ -53,10 +53,10 @@ namespace MovieShop.API.Controllers
             return Ok(movie);
         }
         [HttpGet]
-        [Route("Top30Movies")]
+        [Route("toprated")]
         public async Task<IActionResult> GetAllMovies()
         {
-            var movies = await _movieService.GetTop30GrossingMovies();
+            var movies = await _movieService.GetTop30GRatedMovies();
 
             if(!movies.Any() || movies.Count == 0)
             {

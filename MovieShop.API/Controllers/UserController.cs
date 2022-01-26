@@ -94,7 +94,15 @@ namespace MovieShop.API.Controllers
         public async Task<IActionResult> GetPurchaseDetailByUserIdMovieId(int id, int movieId)
         {
             var purchaseDetail = await _userService.GetPurchaseDetails(id,movieId);
-            return Ok(purchaseDetail);
+            if(purchaseDetail == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(purchaseDetail);
+            }
+           
         }
         [HttpGet]
         [Route("{id:int}/favorite")]

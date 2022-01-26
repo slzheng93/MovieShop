@@ -17,6 +17,67 @@ namespace Infrastructure.Repositories
         {
         }
 
+        public async Task GenerateNewMovie (AdminMovieRequestModel movie)
+        {
+
+            List<GenreModel> genres = new List<GenreModel>();
+
+            foreach (var item in movie.Genres)
+            {
+                genres.Add(new GenreModel { Name = item.Name});
+            }
+
+            var movieModel = new Movie
+            {
+                Title = movie.Title,
+                Overview = movie.Overview,
+                Tagline = movie.Tagline,
+                Revenue = movie.Revenue,
+                Budget = movie.Budget,
+                ImdbUrl = movie.ImdbUrl,
+                TmdbUrl = movie.TmdbUrl,
+                PosterUrl = movie.PosterUrl,
+                BackdropUrl = movie.BackdropUrl,
+                OriginalLanguage = movie.OriginalLanguage,
+                ReleaseDate = movie.ReleaseDate,
+                RunTime = movie.RunTime,
+                Price = movie.Price,
+                UpdatedDate = DateTime.Now,
+                CreatedDate = DateTime.Now,
+            };
+
+            await _dbContext.Movies.AddAsync(movieModel);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task UpdateMovie(AdminMovieRequestModel movie)
+        {
+            var updateMovie = await _dbContext.Movies.Where(m => m.Title == movie.Title).SingleOrDefaultAsync();
+
+            if (updateMovie == null)
+            {
+                await GenerateNewMovie(movie);
+            }
+            else
+            {
+                updateMovie.Overview = movie.Overview;
+                updateMovie.Tagline = movie.Tagline;
+                updateMovie.Revenue = movie.Revenue;
+                updateMovie.Budget = movie.Budget;
+                updateMovie.ImdbUrl = movie.ImdbUrl;
+                updateMovie.TmdbUrl = movie.TmdbUrl;
+                updateMovie.PosterUrl = movie.PosterUrl;
+                updateMovie.BackdropUrl = movie.BackdropUrl;
+                updateMovie.OriginalLanguage = movie.OriginalLanguage;
+                updateMovie.ReleaseDate = movie.ReleaseDate;
+                updateMovie.RunTime = movie.RunTime;
+                updateMovie.Price = movie.Price;
+                updateMovie.UpdatedDate = DateTime.Now;
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+        }
+
         public async Task<List<Movie>> Get30HighestGrossingMovies()
         {
             //here we use LINQ && EF Core to return movies from database
@@ -60,6 +121,19 @@ namespace Infrastructure.Repositories
         {
             var genreMovies = await _dbContext.MovieGenres.Include(m => m.Movie).Where(m => m.GenreId == id).Select(m => m.Movie).ToListAsync();
             return genreMovies;
+        }
+
+        public async Task<List<Movie>> Get30HighestRatedMovies()
+        {
+            var topRatedMovies = await _dbContext.Review.Include(r => r.Movie).GroupBy(r => new { r.MovieId, r.Movie.PosterUrl, r.Movie.Title })
+                .OrderByDescending(m => m.Average(r => r.Rating)).Select(m => new Movie
+                {
+                    Id = m.Key.MovieId,
+                    PosterUrl = m.Key.PosterUrl,
+                    Title = m.Key.Title,
+                }).Take(30).ToListAsync();
+
+            return topRatedMovies;
         }
     }
 }

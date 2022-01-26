@@ -10,9 +10,12 @@ namespace ApplicationCore.Contracts.Servicces
     public interface IMovieService
     {
         Task<List<MovieCardResponseModel>>GetTop30GrossingMovies();
+        Task<List<MovieCardResponseModel>> GetTop30GRatedMovies();
         Task<MovieDetailsResponseModel> GetMovieDetails(int id);
         Task<List<MovieCardResponseModel>> MoviesSameGenre (int id);
         Task<PagedResultSet<MovieCardResponseModel>> GetMoviesByPagination(int pageSize, int page, string title);
+        Task GenerateNewMovie(AdminMovieRequestModel movie);
+        Task UpdateMovie (AdminMovieRequestModel movie);
     }
 
 }

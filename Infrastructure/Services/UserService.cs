@@ -141,16 +141,23 @@ namespace Infrastructure.Services
         {
             var result = await _userRepository.GetPurchasesDetails(userId, movieId);
 
-            var resultModel = new PurchaseDetailsResponseModel
+            if (result != null)
             {
-                Id = result.Id,
-                UserId = result.UserId,
-                PurchaseNumber = result.PurchaseNumber,
-                PurchaseDateTime = result.PurchaseDateTime,
-                TotalPrice = result.TotalPrice,
-            };
+                var resultModel = new PurchaseDetailsResponseModel
+                {
+                    Id = result.Id,
+                    UserId = result.UserId,
+                    PurchaseNumber = result.PurchaseNumber,
+                    PurchaseDateTime = result.PurchaseDateTime,
+                    TotalPrice = result.TotalPrice,
+                };
 
-            return resultModel;
+                return resultModel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseReques, int userId)

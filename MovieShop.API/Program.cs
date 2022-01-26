@@ -14,6 +14,7 @@ builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ICastService, CastService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRepository<Genre>, EfRepository<Genre>>();
@@ -37,6 +38,12 @@ builder.Services.AddDbContext<MovieShopDbContext>(
     );
 
 var app = builder.Build();
+
+app.UseCors(corsPolicyBuilder =>
+{
+    corsPolicyBuilder.WithOrigins(app.Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
+        .AllowAnyMethod().AllowCredentials();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -10,6 +10,6 @@ namespace ApplicationCore.Contracts.Repositories
 {
     public interface IPurchaseRepository : IRepository<Purchase>
     {
-        
+        Task<PagedResultSet<Purchase>> GetAllPurchase(int pagesize = 30, int page = 1);
     }
 }

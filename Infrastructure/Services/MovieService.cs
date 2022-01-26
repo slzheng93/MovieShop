@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Contracts.Repositories;
 using ApplicationCore.Contracts.Servicces;
+using ApplicationCore.Entities;
 using ApplicationCore.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace Infrastructure.Services
         public MovieService(IMovieRepository movieRepository)
         {
             _movieRepository = movieRepository;
+        }
+
+        public async Task GenerateNewMovie(AdminMovieRequestModel movie)
+        {
+            
+            await _movieRepository.GenerateNewMovie(movie);
         }
 
         public async Task<MovieDetailsResponseModel> GetMovieDetails(int id)
@@ -75,6 +82,23 @@ namespace Infrastructure.Services
 
         }
 
+        public async Task<List<MovieCardResponseModel>> GetTop30GRatedMovies()
+        {
+            var topRatedMovies = await _movieRepository.Get30HighestRatedMovies();
+
+            var movieCards = new List<MovieCardResponseModel>();
+            foreach (var movie in topRatedMovies)
+            {
+                movieCards.Add(new MovieCardResponseModel
+                {
+                    Id = movie.Id, Title = movie.Title, PosterUrl = movie.PosterUrl
+                });
+            }
+
+            return movieCards;
+            
+        }
+
         public async Task<List<MovieCardResponseModel>> GetTop30GrossingMovies()
         {
             // we need to call the MovieRepository and get the data from Movies Table
@@ -112,6 +136,11 @@ namespace Infrastructure.Services
                 });
             }
             return genreModel;
+        }
+
+        public async Task UpdateMovie(AdminMovieRequestModel movie)
+        {
+            await _movieRepository.UpdateMovie(movie);   
         }
     }
 }

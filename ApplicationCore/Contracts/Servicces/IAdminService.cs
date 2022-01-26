@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,7 @@ namespace ApplicationCore.Contracts.Servicces
 {
     public interface IAdminService
     {
+        Task<PagedResultSet<Purchase>> GetMoviesByPagination(int pageSize, int page);
+        Task AddMovie(Movie movie);
     }
 }
