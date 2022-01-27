@@ -340,6 +340,27 @@ Front-End Team => React/Angular
 
 
 
+SPA that commnucate with API( ASP.NET , AJava, Python)
+
+JWT => Json Web Token
+
+
+1. SPA(Login Page) , Mobile, Client first they will send email/pw to the API => POST
+    api/account/login
+
+2. API will check if un/pw is valid => 
+    If Valid => API will generate the token and send it back to the Angular in HTTP response
+    Angular stores the token in local storage of the browser
+
+3. http://localhost:4200/user/purchases => Get All the Movies Purchased by User
+    Angular will check for the token inside the local storage => Route Guards
+    if(token is present and token is not expired)
+
+4.  Angular will call api with token (in Http Header)  => [Authorize]  http://localhost:5001/api/user/purchases =>
+    then if the token is valid then send the JSON data back to Anglar
+    
+    
+
 
 
 

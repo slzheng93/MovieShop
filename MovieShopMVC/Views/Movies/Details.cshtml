@@ -149,10 +149,10 @@
             int count = 0;
             foreach (var trailer in Model.Trailers)
             {
-            count = count + 1;
-            <ul class="list-group list-group-flush">
-               <a href="@trailer.TrailerUrl" class="list-group-item">@Model.Title: Trailer @count</a>
-            </ul>
+                count = count + 1;
+                <ul class="list-group list-group-flush">
+                   <a href="@trailer.TrailerUrl" class="list-group-item">@Model.Title: Trailer @count</a>
+                </ul>
             }
             }
          </div>
