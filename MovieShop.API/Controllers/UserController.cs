@@ -1,19 +1,23 @@
 ﻿using ApplicationCore.Contracts.Servicces;
 using ApplicationCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MovieShop.API.Helpers;
 
 namespace MovieShop.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly ICurrentLoginUserService _currentUser;
+        public UserController(IUserService userService, ICurrentLoginUserService currentLoginUserService)
         {
             _userService = userService;
+            _currentUser = currentLoginUserService;
         }
 
         [HttpPost]
@@ -81,14 +85,19 @@ namespace MovieShop.API.Controllers
             await _userService.RemovePurchase(id, movieId);
             return Ok(movieId);
         }
+        
+        
         [HttpGet]
-        [Route("{id:int}/purchases")]
-        public async Task<IActionResult> GetPurchaseMovies(int id)
+        [Route("purchases")]
+        public async Task<IActionResult> GetPurchaseMovies()
         {
-            var userPurchases = await _userService.GetAllPurchasesForUser(id);
-
+            var userId = _currentUser.UserId;
+            var userPurchases = await _userService.GetAllPurchasesForUser(userId);
             return Ok(userPurchases);
         }
+
+
+
         [HttpGet]
         [Route("{id:int}/{movieId:int}/PurchaseDetailByMovieId")]
         public async Task<IActionResult> GetPurchaseDetailByUserIdMovieId(int id, int movieId)
