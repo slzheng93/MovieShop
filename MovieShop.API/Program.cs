@@ -67,6 +67,12 @@ app.UseCors(corsPolicyBuilder =>
     corsPolicyBuilder.WithOrigins(app.Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
         .AllowAnyMethod().AllowCredentials();
 });
+app.UseCors(corsPolicyBuilder =>
+{
+    corsPolicyBuilder.WithOrigins(app.Configuration.GetValue<string>("staticWebSPA")).AllowAnyHeader()
+        .AllowAnyMethod().AllowCredentials();
+});
+
 
 
 
