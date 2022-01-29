@@ -91,7 +91,7 @@ namespace MovieShop.API.Controllers
         
         
         [HttpGet]
-        [Route("purchases")]
+        [Route("user/{id:int}/purchases")]
         public async Task<IActionResult> GetPurchaseMovies()
         {
             var userId = _currentUser.UserId;
@@ -100,9 +100,8 @@ namespace MovieShop.API.Controllers
         }
 
 
-
         [HttpGet]
-        [Route("{movieId:int}/PurchaseDetailByMovieId")]
+        [Route("user/{id:int}/{movieId:int}/PurchaseDetailByMovieId")]
         public async Task<IActionResult> GetPurchaseDetailByUserIdMovieId(int movieId)
         {
             var userId = _currentUser.UserId;
@@ -118,7 +117,7 @@ namespace MovieShop.API.Controllers
            
         }
         [HttpGet]
-        [Route("favorite")]
+        [Route("user/{id:int}/favorite")]
         public async Task<IActionResult> GetAllFavorite()
         {
             var userId = _currentUser.UserId;
@@ -126,7 +125,7 @@ namespace MovieShop.API.Controllers
             return Ok(favorites);
         }
         [HttpGet]
-        [Route("reviews")]
+        [Route("user/{id:int}/reviews")]
         public async Task<IActionResult> GetAllReviews()
         {
             var userId = _currentUser.UserId;
@@ -134,10 +133,9 @@ namespace MovieShop.API.Controllers
             return Ok(favorite);
         }
         [HttpGet]
-        [Route("PurchaseDetailByUserId")]
-        public async Task<IActionResult> PurchaseDetailsByUserId()
+        [Route("user/{id:int}/PurchaseDetailByUserId")]
+        public async Task<IActionResult> PurchaseDetailsByUserId(int userId)
         {
-            var userId = _currentUser.UserId;
             var purchases = await _userService.GetAllPurchaseDetailByUserId(userId);
 
             if (!purchases.Any())

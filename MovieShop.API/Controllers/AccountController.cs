@@ -37,6 +37,21 @@ namespace MovieShop.API.Controllers
             var token = GenerateJWT(user);
             return Ok(  new { token = token } );
         }
+        [HttpPost]
+        [Route("Register")]
+        public async Task<IActionResult> Register(UserRegisterRequestModel model)
+        {
+            var result = await _accountService.Register(model);
+
+            if (result)
+            {
+                return Ok( "Sucessfully Created" );
+            }
+            else
+            {
+                return NotFound("Eror Occurred Druing Creating Account");
+            }
+        }
 
 
         private string GenerateJWT(UserLoginResponseModel user)
